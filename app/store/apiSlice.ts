@@ -1,64 +1,64 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { OrderType } from "@/types/OrderType";
-import { ClientSecretType } from "@/types/ClientSecretType";
-import { CartItemType, CartItemBareType } from "@/types/CartItemType";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { OrderType } from '@/types/OrderType';
+import { ClientSecretType } from '@/types/ClientSecretType';
+import { CartItemType, CartItemBareType } from '@/types/CartItemType';
 
 export const api = createApi({
-  reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "/" }),
+  reducerPath: 'api',
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://kushi-photos.vercel.app/' }),
   refetchOnMountOrArgChange: true,
   //TODO: Tags weren't needed to re-render as expected (after implementing refetchOnMountOrArgChange).
   // Check again to understand what they do.
-  tagTypes: ["CartItems", "ClientSecret"],
+  tagTypes: ['CartItems', 'ClientSecret'],
   endpoints: (builder) => ({
     // NOTE: you get builder query directly in arguments for endpoints function
     // TODO: Add proper typing to query
     getActiveOrder: builder.query<OrderType, void>({
-      query: () => "api/fetch-active-order",
-      providesTags: ["CartItems"],
+      query: () => 'api/fetch-active-order',
+      providesTags: ['CartItems'],
     }),
     addCartItem: builder.mutation({
       query: (body) => ({
-        url: "api/add-to-cart",
-        method: "POST",
+        url: 'api/add-to-cart',
+        method: 'POST',
         body,
       }),
-      invalidatesTags: ["CartItems", "ClientSecret"],
+      invalidatesTags: ['CartItems', 'ClientSecret'],
     }),
     deleteCartItem: builder.mutation({
       query: (cartItemName: string) => ({
         url: `api/mutate-cart-item/${cartItemName}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
-      invalidatesTags: ["CartItems", "ClientSecret"],
+      invalidatesTags: ['CartItems', 'ClientSecret'],
     }),
     updateCartItem: builder.mutation({
       query: ({ name, quantity, unit_amount }: CartItemBareType) => ({
-        url: "api/mutate-cart-item",
-        method: "PATCH",
+        url: 'api/mutate-cart-item',
+        method: 'PATCH',
         body: { name, unit_amount, quantity },
       }),
-      invalidatesTags: ["CartItems", "ClientSecret"],
+      invalidatesTags: ['CartItems', 'ClientSecret'],
     }),
     getClientSecret: builder.query<ClientSecretType, void>({
-      query: () => "api/stripe-secret",
-      providesTags: ["ClientSecret"],
+      query: () => 'api/stripe-secret',
+      providesTags: ['ClientSecret'],
     }),
     addCartItemsLS: builder.mutation({
       query: (body) => ({
-        url: "api/add-ls-cart-items",
-        method: "POST",
+        url: 'api/add-ls-cart-items',
+        method: 'POST',
         body,
       }),
-      invalidatesTags: ["CartItems"],
+      invalidatesTags: ['CartItems'],
     }),
     confirmPayment: builder.mutation({
       query: (body) => ({
-        url: "api/confirm-payment",
-        method: "POST",
+        url: 'api/confirm-payment',
+        method: 'POST',
         body,
       }),
-      invalidatesTags: ["CartItems"],
+      invalidatesTags: ['CartItems'],
     }),
   }),
 });

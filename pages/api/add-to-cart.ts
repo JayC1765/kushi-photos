@@ -1,12 +1,12 @@
-import Stripe from "stripe";
-import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "@/util/prisma";
-import { authOptions } from "./auth/[...nextauth]";
-import { getServerSession } from "next-auth";
-import { UserSessionType } from "@/types/UserSessionType";
+import Stripe from 'stripe';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { prisma } from '@/util/prisma';
+import { authOptions } from './auth/[...nextauth]';
+import { getServerSession } from 'next-auth';
+import { UserSessionType } from '@/types/UserSessionType';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: "2022-11-15",
+  apiVersion: '2022-11-15',
 });
 
 export default async function handler(
@@ -20,7 +20,7 @@ export default async function handler(
   );
 
   if (!userSession?.user) {
-    res.status(200).json({ message: "Not logged in" });
+    res.status(200).json({ message: 'Not logged in' });
     return;
   }
 
@@ -39,7 +39,7 @@ export default async function handler(
     user: { connect: { email: userSession.user?.email! } },
     amount: quantity * parseFloat(unit_amount),
     currency: currency,
-    status: "pending",
+    status: 'pending',
     paymentIntentId: paymentIntentId,
     cartItems: {
       create: {
@@ -54,7 +54,7 @@ export default async function handler(
   };
 
   if (paymentIntentId) {
-    console.log("there is a paymentIntentId here", paymentIntentId);
+    console.log('there is a paymentIntentId here', paymentIntentId);
 
     //Fetch cartItems with the paymentIntentId
     const order = await prisma.order.findUnique({
@@ -66,7 +66,7 @@ export default async function handler(
       },
     });
 
-    if (!order) return res.status(404).json({ message: "Order not found" });
+    if (!order) return res.status(404).json({ message: 'Order not found' });
 
     const { cartItems } = order;
     //Get the cartItem that matches the name of the item being added
@@ -98,7 +98,7 @@ export default async function handler(
           },
         },
       });
-      res.status(200).json({ message: "Existing cart item updated in order." });
+      res.status(200).json({ message: 'Existing cart item updated in order.' });
     }
     //When adding a new cartItem to the user's cart
     else {
@@ -123,11 +123,11 @@ export default async function handler(
           },
         },
       });
-      res.status(200).json({ message: "New cart item added to order." });
+      res.status(200).json({ message: 'New cart item added to order.' });
     }
     //TODO: Return all the cartItems back to the client
   } else {
-    console.log("there is NO paymentIntentId yet");
+    console.log('there is NO paymentIntentId yet');
 
     //Create a paymentIntent in Stripe
     const paymentIntent = await stripe.paymentIntents.create({
