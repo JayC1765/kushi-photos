@@ -4,7 +4,7 @@
   height: 100%;
   row-gap: 1rem;
   padding: 1rem;
-  max-width: 1300px; /* Ensure a max-width is set */
+  max-width: 1400px; /* Ensure a max-width is set */
   margin: 0 auto; /* Center the grid */
   border: var(--debug-border) red solid;
 }
