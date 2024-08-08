@@ -1,9 +1,8 @@
-import styles from "@/styles/Product.module.css";
-import Image from "next/image";
-import { formatPrice } from "@/util/PriceFormat";
-import Link from "next/link";
-import { ProductType } from "@/types/ProductType";
-// import stewie from "@/public/stewie.gif";
+import styles from '@/styles/Product.module.css';
+import Image from 'next/image';
+import { formatPrice } from '@/util/PriceFormat';
+import Link from 'next/link';
+import { ProductType } from '@/types/ProductType';
 
 export default function ProductCard({
   id,
@@ -18,7 +17,7 @@ export default function ProductCard({
       <Link
         href={{
           pathname: `/product/${id}`,
-          query: { name, image, unit_amount, id, description, currency },
+          query: { name, image, unit_amount, description, currency },
         }}
       >
         <div className={styles.productCardImageContainer}>
@@ -31,16 +30,13 @@ export default function ProductCard({
             (max-width: 1200px) 50vw,
             33vw"
             priority={true}
-            // TODO: Figure out how to use blurDataURL
-            // placeholder="blur"
-            // blurDataURL={stewie.src}
           />
         </div>
       </Link>
       <div className={styles.productCardDetails}>
         <p className={styles.productCardName}>{name}</p>
         <p className={styles.productCardPrice}>
-          {unit_amount !== null ? formatPrice(unit_amount) : "N/A"}
+          {unit_amount !== null ? formatPrice(unit_amount) : 'N/A'}
         </p>
       </div>
     </div>

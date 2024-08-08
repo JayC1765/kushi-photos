@@ -1,11 +1,18 @@
-import styles from "@/styles/Product.module.css";
-import Image from "next/image";
-import { SearchParamsType } from "@/types/SearchParamsType";
-import { formatPrice } from "@/util/PriceFormat";
-import Providers from "@/app/components/Providers";
-import Quantity from "@/app/components/Quantity";
+import styles from '@/styles/Product.module.css';
+import Image from 'next/image';
+import { SearchParamsType } from '@/types/SearchParamsType';
+import { formatPrice } from '@/util/PriceFormat';
+import Providers from '@/app/components/Providers';
+import Quantity from '@/app/components/Quantity';
 
-export default async function Product({ searchParams }: SearchParamsType) {
+export default async function Product({
+  params,
+  searchParams,
+}: SearchParamsType) {
+  console.log(
+    `the current product is ${searchParams.name} and the id is ${params.id}`
+  );
+
   return (
     <div className={styles.productPage}>
       <div className={styles.singleProductContainer}>
@@ -22,7 +29,7 @@ export default async function Product({ searchParams }: SearchParamsType) {
           <p>
             {searchParams.unit_amount !== null
               ? formatPrice(searchParams.unit_amount)
-              : "N/A"}
+              : 'N/A'}
           </p>
           <Providers>
             <Quantity details={searchParams} />
