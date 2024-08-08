@@ -13,6 +13,9 @@ export default function EmailForm() {
   const [message, setMessage] = useState('');
   const [formSending, setFormSending] = useState(false);
   const [isVarMissing, setIsVarMissing] = useState(true);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [buttonText, setButtonText] = useState('Send Email');
+  const [buttonColor, setButtonColor] = useState('var(--tertiary-color)');
 
   const clearForm = () => {
     setName('');
@@ -34,6 +37,8 @@ export default function EmailForm() {
   function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     setFormSending(true);
+    setSuccessMessage(null);
+
     if (form.current) {
       emailjs
         .sendForm(
@@ -46,13 +51,28 @@ export default function EmailForm() {
           (result) => {
             console.log(result.text);
             clearForm();
-            setFormSending(false);
+            setButtonColor('green');
+            setSuccessMessage('Your message has been sent!');
+            setButtonText('Email Sent!');
           },
           (error) => {
             console.log(error.text);
-            setFormSending(false);
+            clearForm();
+            setButtonColor('red');
+            setSuccessMessage('Error sending your email message...');
           }
-        );
+        )
+        .finally(() => {
+          setFormSending(false);
+
+          setTimeout(() => {
+            setButtonColor('var(--tertiary-color)');
+            setButtonText('Send Email');
+          }, 3000);
+        });
+    } else {
+      console.log('Form reference is null');
+      setFormSending(false);
     }
   }
 
@@ -69,7 +89,11 @@ export default function EmailForm() {
           id="name"
           name="name"
           value={name}
-          onChange={(event) => setName(event.target.value)}
+          onChange={(event) => {
+            setName(event.target.value);
+            setSuccessMessage(null);
+          }}
+          required
         />
       </div>
       <div className={styles.formGroup}>
@@ -79,7 +103,11 @@ export default function EmailForm() {
           id="phoneNumber"
           name="phone_number"
           value={phoneNumber}
-          onChange={(event) => setPhoneNumber(event.target.value)}
+          onChange={(event) => {
+            setPhoneNumber(event.target.value);
+            setSuccessMessage(null);
+          }}
+          required
         />
       </div>
       <div className={styles.formGroup}>
@@ -89,7 +117,11 @@ export default function EmailForm() {
           id="email"
           name="email"
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(event) => {
+            setEmail(event.target.value);
+            setSuccessMessage(null);
+          }}
+          required
         />
       </div>
       <div className={styles.formGroup}>
@@ -99,7 +131,11 @@ export default function EmailForm() {
           id="title"
           name="title"
           value={title}
-          onChange={(event) => setTitle(event.target.value)}
+          onChange={(event) => {
+            setTitle(event.target.value);
+            setSuccessMessage(null);
+          }}
+          required
         />
       </div>
       <div className={styles.formGroup}>
@@ -109,16 +145,27 @@ export default function EmailForm() {
           name="message"
           value={message}
           className={styles.messageTextArea}
-          onChange={(event) => setMessage(event.target.value)}
+          onChange={(event) => {
+            setMessage(event.target.value);
+            setSuccessMessage(null);
+          }}
+          required
         />
       </div>
       <button
         className="primaryButton"
         type="submit"
         disabled={isVarMissing || formSending}
+        style={{ backgroundColor: buttonColor }}
       >
-        Send Email
+        {buttonText}
       </button>
+
+      {successMessage && (
+        <div>
+          <p className={styles.successMessage}>{successMessage}</p>
+        </div>
+      )}
     </form>
   );
 }

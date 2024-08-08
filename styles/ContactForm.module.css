@@ -37,3 +37,9 @@
   height: 150px;
   resize: none;
 }
+
+.successMessage {
+  text-align: center;
+  color: green;
+  margin-top: 5px;
+}
