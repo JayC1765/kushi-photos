@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from "react";
-import styles from "@/styles/ContactForm.module.css";
-import emailjs from "@emailjs/browser";
+import { useState, useRef, useEffect } from 'react';
+import styles from '@/styles/ContactForm.module.css';
+import emailjs from '@emailjs/browser';
 
 export default function EmailForm() {
   const form = useRef<HTMLFormElement>(null);
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [title, setTitle] = useState("");
-  const [message, setMessage] = useState("");
+  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [title, setTitle] = useState('');
+  const [message, setMessage] = useState('');
   const [formSending, setFormSending] = useState(false);
   const [isVarMissing, setIsVarMissing] = useState(true);
 
   const clearForm = () => {
-    setName("");
-    setPhoneNumber("");
-    setEmail("");
-    setTitle("");
-    setMessage("");
+    setName('');
+    setPhoneNumber('');
+    setEmail('');
+    setTitle('');
+    setMessage('');
   };
 
   useEffect(() => {
@@ -34,25 +34,26 @@ export default function EmailForm() {
   function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
     setFormSending(true);
-    emailjs
-      .sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string,
-        form.current,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-          clearForm();
-          setFormSending(false);
-        },
-        (error) => {
-          console.log(error.text);
-          setFormSending(false);
-        }
-      );
-    //TODO: add email string validation and then show warning message next to input
+    if (form.current) {
+      emailjs
+        .sendForm(
+          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string,
+          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string,
+          form.current,
+          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string
+        )
+        .then(
+          (result) => {
+            console.log(result.text);
+            clearForm();
+            setFormSending(false);
+          },
+          (error) => {
+            console.log(error.text);
+            setFormSending(false);
+          }
+        );
+    }
   }
 
   return (
