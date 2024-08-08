@@ -9,10 +9,6 @@ export default async function Product({
   params,
   searchParams,
 }: SearchParamsType) {
-  console.log(
-    `the current product is ${searchParams.name} and the id is ${params.id}`
-  );
-
   return (
     <div className={styles.productPage}>
       <div className={styles.singleProductContainer}>
@@ -32,7 +28,7 @@ export default async function Product({
               : 'N/A'}
           </p>
           <Providers>
-            <Quantity details={searchParams} />
+            <Quantity details={{ ...searchParams, id: params.id }} />
           </Providers>
         </div>
       </div>

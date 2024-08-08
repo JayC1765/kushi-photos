@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { ProductType } from "@/types/ProductType";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store/store";
-import { useAddCartItemMutation } from "../store/apiSlice";
-import React from "react";
-import { CartItemBackendType, CartItemType } from "@/types/CartItemType";
-import { addCartItemToLocalStorage } from "@/util/cart-item-utils";
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { ProductType } from '@/types/ProductType';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/store/store';
+import { useAddCartItemMutation } from '../store/apiSlice';
+import React from 'react';
+import { CartItemBackendType, CartItemType } from '@/types/CartItemType';
+import { addCartItemToLocalStorage } from '@/util/cart-item-utils';
+import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 
 interface AddToCartType extends ProductType {
   quantity: number;
@@ -46,7 +46,7 @@ export default function AddToCart({
       paymentIntentId,
     };
     try {
-      if (session.status === "unauthenticated") {
+      if (session.status === 'unauthenticated') {
         addCartItemToLocalStorage(cartItem);
       } else {
         await addCartItem(cartItemBackend).unwrap();
