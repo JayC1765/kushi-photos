@@ -98,6 +98,7 @@ export default async function handler(
           },
         },
       });
+      console.log('An existing cart item has been updated');
       res.status(200).json({ message: 'Existing cart item updated in order.' });
     }
     //When adding a new cartItem to the user's cart
@@ -123,6 +124,7 @@ export default async function handler(
           },
         },
       });
+      console.log('An new item has been added to the order');
       res.status(200).json({ message: 'New cart item added to order.' });
     }
     //TODO: Return all the cartItems back to the client
@@ -158,7 +160,7 @@ export default async function handler(
 
     //Store the newly added cartItem and return to client
     const addedItem = cartItems[0];
-    // console.log(addedItem);
+    console.log(addedItem);
 
     res.status(200).json({
       paymentIntentId: paymentIntent.id,

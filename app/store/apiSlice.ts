@@ -5,7 +5,7 @@ import { CartItemType, CartItemBareType } from '@/types/CartItemType';
 
 export const api = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://kushi-photos.vercel.app/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/' }),
   refetchOnMountOrArgChange: true,
   //TODO: Tags weren't needed to re-render as expected (after implementing refetchOnMountOrArgChange).
   // Check again to understand what they do.

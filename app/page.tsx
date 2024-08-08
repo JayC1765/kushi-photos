@@ -1,12 +1,12 @@
-import Stripe from "stripe";
-import ProductCard from "./components/ProductCard";
-import styles from "@/styles/Product.module.css";
+import Stripe from 'stripe';
+import ProductCard from './components/ProductCard';
+import styles from '@/styles/Product.module.css';
 
 const getProducts = async () => {
   if (!process.env.STRIPE_SECRET_KEY)
-    throw new Error("Missing Stripe secret key");
+    throw new Error('Missing Stripe secret key');
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: "2022-11-15",
+    apiVersion: '2022-11-15',
   });
   const products = await stripe.products.list({ active: true });
   const productsWithPrices = await Promise.all(
